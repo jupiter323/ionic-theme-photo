@@ -1,0 +1,188 @@
+<!--
+  Generated template for the MisReservasPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+
+
+      <ion-buttons start>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    </ion-buttons>
+
+    
+    <ion-title>Mis Reservaciones</ion-title>
+  </ion-navbar>
+
+
+<ion-segment mode="md" [(ngModel)]="section">
+    <ion-segment-button   style='font-size: 15px;text-transform: none !important;' value="one" >
+	       <span> 
+	       <img  *ngIf='section=="one"' style='vertical-align: middle;margin-right: 10px;' src="assets/imgs/calendarBlanco.png">
+	       <img  *ngIf='!(section=="one")' style='vertical-align: middle;margin-right: 10px;' src="assets/imgs/calendarGris.png">
+	        Activas</span>
+	    </ion-segment-button>
+
+
+
+	    <ion-segment-button  value="two" style='
+    	font-size: 15px;text-transform: none !important;' >
+    	<span>
+	      <img  *ngIf='section=="two"' style='vertical-align: middle;margin-right: 10px;' src="assets/imgs/equisBlanca.png"> 
+	      <img  *ngIf='!(section=="two")'  style='vertical-align: middle;margin-right: 10px;' src="assets/imgs/equisGris.png"> 
+
+	      
+
+	      Inactivas
+	       </span>
+	    </ion-segment-button>
+</ion-segment>
+
+
+
+</ion-header>
+
+
+<ion-content >
+
+
+
+
+
+
+<div [ngSwitch]="section">
+    <ion-list mode="md" *ngSwitchCase="'one'">
+
+    	<div  style='    margin: 30px;
+    text-align: center;
+    font-size: 16px;
+    color: darkgray;' *ngIf="(reservas | filtrofav: filterFav).length == 0" >No hay reservas en esta seccion
+
+
+    	</div>
+		<div class='cardReserva' *ngFor="let n of reservas | filtrofav: filterFav" (click)='goDetalle(n.idCita)'>
+
+		<div>
+				<div style="display: inline-block;    width: 100%;">
+				<div  class="fechaItem" 
+				[ngClass]="{'citaE3sb3':n.estado == 3,'citaE4sb3':n.estado == 4 || n.estado == 7, 'citaE2sb3': n.estado == 5, 'citaE1sb3':n.estado == 2, 'citaE0sb3':n.estado == 1}">
+						<span style="display: block; text-transform: uppercase;">{{getMes(n.horaInicio)}}</span>
+						<span style="display: block;font-size: 27px;font-weight: 800">{{getDia(n.horaInicio)}}</span>
+						<span *ngIf='n.horaInicio' style="display: block;">{{getDattt(n.horaInicio)}}</span>
+				</div>
+				<div style="    display: inline-block;vertical-align: middle;    max-width: 58%;">
+				<span *ngIf='n.estado==1' class='estadoReservas' style="color: #efd801;">
+				PENDIENTE CONFIRMAR
+				</span>
+				<span *ngIf='n.estado==2'  class='estadoReservas' style="color:#5072C0 ">
+				CONFIRMADA
+				</span>
+				<span *ngIf='n.estado==3'  class='estadoReservas' style="color: #2FD99B;">
+				COMPLETA
+				</span>
+				<span *ngIf='n.estado==5'  class='estadoReservas' style="color: #FFC859">
+				REPROGRAMADA - PENDIENTE</span>
+				<span *ngIf='n.estado==4' class='estadoReservas' style="color: #f75669;">
+				DECLINADA
+				</span>
+
+						<span *ngIf='n.estado==7' class='estadoReservas' style="color: #f75669;">
+				CANCELADA
+				</span>
+
+
+				<span style="font-size: 15px;
+    color: #8a8888;    font-weight: 500;">
+				{{n.nombreCentro}}
+				</span>
+				<span  class='estadoReservas2' style="color: #999;">
+				{{n.servicioMain}} <span *ngIf='n.cantServicios>1'> y {{getNumMen(n.cantServicios)}} más </span> 
+				</span>
+				</div>
+				<ion-icon class='iconR' name="arrow-forward"></ion-icon>
+				</div>
+
+		</div>
+		</div>
+
+
+		
+
+
+    </ion-list>
+
+    <ion-list  mode="md" *ngSwitchCase="'two'">
+
+
+    	<div  style='    margin: 30px;
+    text-align: center;
+    font-size: 16px;
+    color: darkgray;' *ngIf="(reservas | filtrofav: filterFav2).length == 0" >No hay reservas en esta seccion
+
+    
+    	</div>
+
+    	
+
+			<div class='cardReserva' *ngFor="let n of reservas.slice().reverse() | filtrofav: filterFav2" (click)='goDetalle(n.idCita)'>
+
+		<div>
+				<div style="display: inline-block;    width: 100%;">
+				<div  class="fechaItem">
+						<span style="display: block; text-transform: uppercase;">{{getMes(n.horaInicio)}}</span>
+						<span style="display: block;font-size: 27px;font-weight: 800">{{getDia(n.horaInicio)}}</span>
+						<span *ngIf='n.horaInicio' style="display: block;">{{getDattt(n.horaInicio)}}</span>
+				</div>
+				<div style="    display: inline-block;vertical-align: middle;    max-width: 58%;">
+				<span *ngIf='n.estado==1' class='estadoReservas' style="color: rgb(250,195,0);">
+				PENDIENTE CONFIRMAR
+				</span>
+				<span *ngIf='n.estado==2'  class='estadoReservas' style="color: #2FD99B;">
+				CONFIRMADA
+				</span>
+				<span *ngIf='n.estado==3'  class='estadoReservas' style="color: #2FD99B;">
+				COMPLETA
+				</span>
+				<span *ngIf='n.estado==5'  class='estadoReservas' style="color: #2FD99B;">
+				REPROGRAMADA - PENDIENTE</span>
+							<span *ngIf='n.estado==4' class='estadoReservas' style="color: #EC527E;">
+				DECLINADA
+				</span>
+				<span *ngIf='n.estado==7' class='estadoReservas' style="color: #EC527E;">
+				CANCELADA
+				</span>
+				<span style="font-size: 15px;
+    color: #8a8888;">
+				{{n.nombreCentro}}
+				</span>
+				<span  class='estadoReservas2' style="color: #999;">
+				{{n.servicioMain}} 
+				<span *ngIf='n.cantServicios>1'> y {{getNumMen(n.cantServicios)}} más </span> 
+				con {{n.nombreEmpleado}}
+				</span>
+				</div>
+				<ion-icon class='iconR' name="arrow-forward"></ion-icon>
+				</div>
+
+		</div>
+
+
+		</div>
+
+
+
+
+
+
+    </ion-list>
+
+</div>
+
+
+
+</ion-content>
